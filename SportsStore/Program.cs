@@ -19,7 +19,7 @@ namespace SportsStore
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
+                .UseStartup<Startup>().UseDefaultServiceProvider(options => options.ValidateScopes = false)
                 .Build();
     }
 }
