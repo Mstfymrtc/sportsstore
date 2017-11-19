@@ -28,6 +28,17 @@ namespace SportsStore
             services.AddMvc(); ////n
             services.AddTransient<IProductRepository, EFProductRepository>();
 
+            /*IMPORTANTIMPORTANTIMPORTANTIMPOTANT*/
+            /*IMPORTANTIMPORTANTIMPORTANTIMPOTANT*/
+            /*IMPORTANTIMPORTANTIMPORTANTIMPOTANT*/
+            /*IMPORTANTIMPORTANTIMPORTANTIMPOTANT*/
+            /////////////////////////////* session data is lost when the application is stopped or restarted. */////////////////
+            /*IMPORTANTIMPORTANTIMPORTANTIMPOTANT*/
+            /*IMPORTANTIMPORTANTIMPORTANTIMPOTANT*/
+            /*IMPORTANTIMPORTANTIMPORTANTIMPOTANT*/
+            /*IMPORTANTIMPORTANTIMPORTANTIMPOTANT*/
+            services.AddMemoryCache();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,17 +48,48 @@ namespace SportsStore
             app.UseDeveloperExceptionPage(); /////n
             app.UseStatusCodePages();         //////n
             app.UseStaticFiles();             //////n
+            app.UseSession();
             app.UseMvc(routes =>
             {          ///////n
+                routes.MapRoute(
+                     name: null,
+                     template: "{category}/Page{productPage:int}",
+                     defaults: new { controller = "Product", action = "List" }
+                     );
 
                 routes.MapRoute(
-                    name: "pagination",
-                    template: "Products/Page{productPage}",
-                    defaults: new { Controller = "Product", action = "List" });
+                     name: null,
+                     template: "Page{productPage:int}",
+                     defaults: new
+                     {
+                         controller = "Product",
+                         action = "List",
+                         productPage = 1
+                     });
 
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Product}/{action=List}/{id?}");
+                    name: null,
+                    template: "{category}",
+                    defaults: new
+                    {
+                        controller = "Product",
+                        action = "List",
+                        productPage = 1
+                    });
+
+                routes.MapRoute(
+                    name: null,
+                    template: "",
+                    defaults: new
+                    {
+                        controller = "Product",
+                        action = "List",
+                        productPage = 1
+                    });
+
+                routes.MapRoute(
+                    name: null,
+                    template: "{controller}/{action}/{id?}");
             });
 
 
