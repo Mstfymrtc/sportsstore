@@ -82,6 +82,19 @@ namespace SportsStore.Controllers
         }
         public ViewResult Index(string returnUrl)
         {
+            #region for_checkoutbutton_hide
+            //if (cart.Lines.Count()!=0)
+            //{
+            //    ViewBag.CheckoutButton = true;
+            //}
+            //else
+            //{
+            //    ViewBag.CheckoutButton = false;
+
+            //} 
+            #endregion
+
+
             return View(new CartIndexViewModel
             {
                 Cart = cart,

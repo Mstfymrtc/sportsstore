@@ -34,7 +34,7 @@ namespace SportsStore.Controllers
             if (cart.Lines.Count()==0)
             {
                 ModelState.AddModelError("", "Sorry, your cart is empty. " +
-                    "Add some stuff to your cart to checkout!");
+                    "Add some stuff your cart to checkout!");
             }
             if (ModelState.IsValid)
             {
