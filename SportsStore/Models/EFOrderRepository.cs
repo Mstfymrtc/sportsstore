@@ -22,11 +22,12 @@ namespace SportsStore.Models
             //orders modeli içinde cartline tipinde navigation property var ve
             //cartline içinde de product tipinden navigation property var!!
 
-
+        //database e kaydetme işlemi için bunu kullanıyoruz.
         public void SaveOrder(Order order)
         { // order ekleme çıkartma var şu anlık, onun için saveOrder var.
 
-            context.AddRange(order.Lines.Select(l => l.Product));
+            context.AttachRange(order.Lines.Select(l => l.Product));
+            
             // bu seçilenleri tracked olarak işaretliyor, zaten var olan product
             //nesnelerinin tekrar database e yazılmasını engellemek amacıyla tracked olarak işaretliyoruz.
 
