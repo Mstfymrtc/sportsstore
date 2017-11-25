@@ -27,9 +27,14 @@ namespace SportsStore
         {
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["Data:SportStoreProducts:ConnectionString"]));
-            services.AddDbContext<AppIdentityDbContext>(options=>options.UseSqlServer(Configuration["Data:"]))
 
-           
+            #region lines for identity
+
+            services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlServer(Configuration["Data:SportStoreIdentity:ConnectionString"]));
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders(); 
+            #endregion
+
+
             services.AddMvc(); ////n
             services.AddTransient<IProductRepository, EFProductRepository>();
             services.AddTransient<IOrderRepository, EFOrderRepository>();
@@ -51,6 +56,7 @@ namespace SportsStore
 
         }
 
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -59,6 +65,7 @@ namespace SportsStore
             app.UseStatusCodePages();         //////n
             app.UseStaticFiles();             //////n
             app.UseSession();
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {          ///////n
                 routes.MapRoute(
@@ -106,6 +113,7 @@ namespace SportsStore
 
 
             SeedData.EnsurePopulated(app);
+            IdentitySeedData.EnsurePopulated(app); // identity seed data!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
             if (env.IsDevelopment())
             {
